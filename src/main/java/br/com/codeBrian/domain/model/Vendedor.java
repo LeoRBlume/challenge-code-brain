@@ -1,14 +1,16 @@
 package br.com.codeBrian.domain.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Vendedor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String nome;
 
-    @Id
     private Long matricula;
 
     public Vendedor() {
@@ -33,6 +35,14 @@ public class Vendedor {
 
     public void setMatricula(Long matricula) {
         this.matricula = matricula;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

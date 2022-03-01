@@ -1,16 +1,25 @@
 package br.com.codeBrian.domain.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Produto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
     private double preco;
 
     public Produto() {
     }
 
-    public Produto(String nome, double preco) {
-        this.nome = nome;
-        this.preco = preco;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -25,10 +34,15 @@ public class Produto {
         return preco;
     }
 
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
     @Override
     public String toString() {
         return "Produto{" +
-                "nome='" + nome + '\'' +
+                "idProduto=" + id +
+                ", nome='" + nome + '\'' +
                 ", preco=" + preco +
                 '}';
     }

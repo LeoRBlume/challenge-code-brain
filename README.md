@@ -3,6 +3,19 @@
 Este projeto se consiste na criação das API's para serem consumidas por um
 frontend
 
+##Clonando projeto do Git:
+###Cloanando repositorio por comando:
+Ir no repositorio Git e copiar a URL do projeto:
+https://github.com/LeoRBlume/challenge-code-brain.git
+
+Com o terminal aberto digitar: 
+git clone https://github.com/LeoRBlume/challenge-code-brain.git
+
+###Em uma IDE:
+Selecionar para abrir um projeto atraves do VCS.
+
+E colar a url: https://github.com/LeoRBlume/challenge-code-brain.git
+
 ## Rodando a aplicação
 
 Para rodar a aplicação basta rodar o seguinte comando no terminal:
@@ -169,4 +182,89 @@ um JSON com o Produto deletado.
     "nome": "nome do produto",
     "preco": preco do produto
 }
+```
+###Endpoints de Venda:
+A venda tem apenas a funcionalidade de cadastrar: 
+
+####Cadastrando uma venda:
+```shell script
+Metodo POST:
+url: http://localhost:8080/venda
+
+Para cadastrar uma venda, tem que ser 
+informada uma matricua valida de um
+vendedor e uma lista de nome de itens.
+{
+	"matricula": matriculaVendedor,
+	"nomeProdutos": 
+    [
+        "Nome do produto",
+        "Nome do produto",
+        "Nome do produto"
+    ]
+}
+```
+###Endpoints de Relatorios:
+Temos 3 tipos de relatorios:
+
+####Lista dos vendedores por maior numero de vendas:
+```shell script
+Metodo GET:
+url: http://localhost:8080/relatorios/vendedoresPorVenda
+
+Ira retornar uma lista dos vendedores 
+ordenada pela quantidade de venda.
+[
+  {
+    "idVendedor": id,
+    "nome": "Nome do vendedor",
+    "quantidadeVendida": qtd. de vendas
+  },
+  {
+    "idVendedor": id,
+    "nome": "Nome do vendedor",
+    "quantidadeVendida": qtd. de vendas
+  }
+]
+```
+
+####Lista dos vendedores por valor vendido:
+```shell script
+Metodo GET:
+url: http://localhost:8080/relatorios/vendedoresValorVendido
+
+Ira retornar uma lista dos vendedores 
+ordenada pelo valor dos itens que 
+eles venderam.
+[
+  {
+    "idVendedor": id,
+    "nome": "Nome do vendedor",
+    "valorVendido": valor vendido
+  },
+  {
+    "idVendedor": id,
+    "nome": "Nome do vendedor",
+    "valorVendido": valor vendido
+  }
+]
+```
+
+####Lista de itens mais vendidos:
+```shell script
+Metodo GET:
+url: http://localhost:8080/relatorios/itensMaisVendidos
+
+Ira retornar uma lista dos itens 
+ordenada pela quantidade vendida
+[
+  {
+    "nome": "Nome do item",
+    "quantidadeVendida": Quantidade vendida
+  },
+  {
+    "nome": "Nome do item",
+    "quantidadeVendida": Quantidade vendida
+  }
+]
 ```

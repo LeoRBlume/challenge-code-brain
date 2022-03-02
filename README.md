@@ -1,56 +1,172 @@
-# challenge Project
+# Sistema de Score de Vendas
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Este projeto se consiste na criação das API's para serem consumidas por um
+frontend
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Rodando a aplicação
 
-## Running the application in dev mode
-
-You can run your application in dev mode that enables live coding using:
+Para rodar a aplicação basta rodar o seguinte comando no terminal:
 ```shell script
+Na pasta do projeto no terminal, digitar o seguinte comando: 
+
 ./mvnw compile quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+> **_Obs:_**  A Aplicação sera ouvida na porta 8080: http://localhost:8080/
 
-## Packaging and running the application
+## Explicando os Endpoints
+###Endpoints de Vendedor:
+Os endpoints vendedores estão divididos em 5 funcionalidades:
 
-The application can be packaged using:
+####Listar todos os vendedores:
 ```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+Metodo GET:
+url: http://localhost:8080/vendedor
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+Ira retornar uma lista de vendedores
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+[
+  {
+      "id": id,
+      "matricula": matricula,
+      "nome": "nome"
+  },
+  {
+      "id": id,
+      "matricula": matricula,
+      "nome": "nome"
+  },
+]
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
 ```
 
-You can then execute your native executable with: `./target/challenge-1.0.0-SNAPSHOT-runner`
+####Obter um vendedor especifico:
+```shell script
+Metodo GET:
+url: http://localhost:8080/vendedor/{matriculaDoVendedor}
 
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
+Ira retornar um vendedor caso tenha com a matricula
+{
+      "id": id,
+      "matricula": matricula,
+      "nome": "nome"
+}
+```
 
-## Provided Code
+####Cadastrar um vendedor:
+```shell script
+Metodo POST:
+url: http://localhost:8080/vendedor
+body: 
+{
+	"matricula": matricula,
+	"nome": "Nome do vendedor"
+}
 
-### RESTEasy JAX-RS
+So pode ter um vendedor por matricula e precisa ser informada a matricula.
 
-Easily start your RESTful Web Services
+Ira retornar um JSON do objeto criado com o id
 
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+{
+      "id": id,
+      "matricula": matricula,
+      "nome": "nome"
+}
+```
+
+####Atualizar um vendedor:
+```shell script
+Metodo PUT:
+url: http://localhost:8080/vendedor
+body: 
+{
+      "id": id,
+      "matricula": matricula,
+      "nome": "nome"
+}
+Para atualizar um vendedor, o id de um vendedor precisa ser informado.
+```
+
+####Deletar um vendedor:
+```shell script
+Metodo DELETE:
+url: http://localhost:8080/vendedor/{idDoVendedor}
+
+Para deletar um vendedor, um id de um vendedor precisa ser informado e sera retornado
+um JSON com o Vendedor deletado.
+{
+      "id": id,
+      "matricula": matricula,
+      "nome": "nome"
+}
+```
+
+###Endpoints de Produtos:
+Os endpoints produtos estão divididos em 4 funcionalidades:
+
+####Listar todos os produtos:
+```shell script
+Ira retornar uma lista de produtos
+
+[
+{
+    "id": id,
+    "nome": "nome do produto",
+    "preco": preco do produto
+  },
+{
+    "id": id,
+    "nome": "nome do produto",
+    "preco": preco do produto
+  },
+]
+```
+
+####Cadastrar um produto:
+```shell script
+Metodo POST:
+url: http://localhost:8080/produto
+body: 
+{
+    "nome": "nome do produto",
+    "preco": preco do produto
+}
+
+So pode ter um produto por nome e pode ser passado ou não o preco 
+atribuindo como 0 caso não
+
+Ira retornar um JSON do objeto criado com o id
+
+{
+    "id": id,
+    "nome": "nome do produto",
+    "preco": preco do produto
+}
+```
+
+####Atualizar um produto:
+```shell script
+Metodo PUT:
+url: http://localhost:8080/produto
+body: 
+{
+    "id": id,
+    "nome": "nome do produto",
+    "preco": preco do produto
+}
+Para atualizar um produto, o id de um produto precisa ser informado.
+```
+
+####Deletar um produto:
+```shell script
+Metodo DELETE:
+url: http://localhost:8080/produto/{idDoProduto}
+
+Para deletar um produto, um id de um produto precisa ser informado e sera retornado
+um JSON com o Produto deletado.
+{
+    "id": id,
+    "nome": "nome do produto",
+    "preco": preco do produto
+}
+```

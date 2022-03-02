@@ -1,9 +1,6 @@
 package br.com.codeBrian.interfaces.resource;
 
 import br.com.codeBrian.application.use_case.VendaUseCase;
-import br.com.codeBrian.application.use_case.VendedorUseCase;
-import br.com.codeBrian.domain.model.Venda;
-import br.com.codeBrian.infraestructure.repository.VendaRepository;
 import br.com.codeBrian.interfaces.form.VendaForm;
 
 import javax.inject.Inject;
@@ -18,12 +15,13 @@ public class VendaResource {
     @Inject
     VendaUseCase useCase;
 
-    @Inject
-    VendaRepository repository;
-
     @POST
     @Transactional
-    public Response inserir(VendaForm venda){
-        return useCase.realizarVenda(venda);
+    public Response inserir(VendaForm venda) {
+        try {
+            return useCase.realizarVenda(venda);
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 }

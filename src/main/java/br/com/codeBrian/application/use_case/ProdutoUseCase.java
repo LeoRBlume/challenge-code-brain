@@ -14,7 +14,7 @@ public class ProdutoUseCase {
     @Inject
     ProdutoRepository repository;
 
-    public Response deletarProduto(Long idProduto) {
+    public Response deletarProduto(Long idProduto) throws Exception {
         Optional<Produto> produtoOptional = repository.findByIdOptional(idProduto);
         if (produtoOptional.isPresent()) {
             repository.delete(produtoOptional.get());
@@ -23,12 +23,23 @@ public class ProdutoUseCase {
         return Response.ok("Não a nenhum produto com esse Id").status(404).build();
     }
 
-    public Response atualizarPedido(Produto produto) {
+    public Response atualizarPedido(Produto produto) throws Exception {
         Optional<Produto> produtoOptional = repository.findByIdOptional(produto.getId());
         if (produtoOptional.isPresent()) {
             produtoOptional.get().setNome(produto.getNome());
             produtoOptional.get().setPreco(produto.getPreco());
-            return Response.ok(produtoOptional.get()).status(200).build();
+            return Response.ok().status(200).build();
         } else return Response.ok().status(404).build();
+    }
+
+    public Response cadastrarProduto(Produto produto) {
+        Optional<Produto> produtoOptional = repository.findByNome(produto.getNome());
+
+        if (produtoOptional.isPresent()) return Response.ok("Ja existe um produto com esse nome!!").status(422).build();
+
+        repository.persist(produto);
+
+        return Response.ok(repository.findByNome(produto.getNome())).status(200).build();
+
     }
 }

@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Optional;
 
 @Path("vendedor")
 public class VendedorResource {
@@ -28,30 +27,43 @@ public class VendedorResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{idVendedor}")
-    public Response obterVendedor(@PathParam Long idVendedor) {
-        return useCase.obterVendedor(idVendedor);
-
+    @Path("/{matricula}")
+    public Response obterVendedor(@PathParam Long matricula) {
+        return useCase.obterVendedor(matricula);
     }
 
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirVendedor(Vendedor vendedor) {
-        return useCase.inserirVendedor(vendedor);
+        try {
+            return useCase.inserirVendedor(vendedor);
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public Response atualizarVendedor(Vendedor vendedor) {
-       return useCase.atualizarVendedor(vendedor);
+        try {
+            return useCase.atualizarVendedor(vendedor);
+        } catch (IllegalArgumentException e) {
+            return Response.ok("Necessario passar o id para atualizar!!").status(400).build();
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 
     @DELETE
     @Path("/{idVendedor}")
     @Transactional
     public Response deletarVendedor(@PathParam Long idVendedor) {
-        return useCase.deletarVendedor(idVendedor);
+        try {
+            return useCase.deletarVendedor(idVendedor);
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 }

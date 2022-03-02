@@ -23,22 +23,34 @@ public class ProdutoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarPedidos() {
-        return Response.ok(repository.listAll()).status(200).build();
+        try {
+            return Response.ok(repository.listAll()).status(200).build();
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirProduto(Produto produto) {
-        repository.persist(produto);
-        return Response.ok(produto).status(200).build();
+        try {
+            return useCase.cadastrarProduto(produto);
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 
     @PUT
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     public Response atualizarPedido(Produto produto) {
-        return useCase.atualizarPedido(produto);
+        try {
+            return useCase.atualizarPedido(produto);
+
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 
     @DELETE
@@ -46,6 +58,10 @@ public class ProdutoResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletarProduto(@PathParam Long idProduto) {
-        return useCase.deletarProduto(idProduto);
+        try {
+            return useCase.deletarProduto(idProduto);
+        } catch (Exception e) {
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
+        }
     }
 }

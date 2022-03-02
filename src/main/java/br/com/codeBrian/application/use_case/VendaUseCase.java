@@ -31,16 +31,18 @@ public class VendaUseCase {
 
         Venda venda = new Venda();
 
+        List<Produto> produtos = new ArrayList<>();
+
+        double valorTotal = 0.0;
+
         Optional<Vendedor> vendedorOptional = vendedorRepository.findByMatricula(vendaForm.getMatricula());
 
         if (vendedorOptional.isPresent()) {
             venda.setVendedor(vendedorOptional.get());
         } else return Response.ok("Não foi possivel encontrar um vendedor com essa matricula!!").status(404).build();
 
-        List<Produto> produtos = new ArrayList<>();
 
-        double valorTotal = 0.0;
-
+        //Buscando os itens pelo nome e somando seus preços
         for (String nomeProduto : vendaForm.getNomeProdutos()) {
             Optional<Produto> produtoOptional = produtoRepository.findByNome(nomeProduto);
             if (produtoOptional.isPresent()) {
@@ -55,12 +57,6 @@ public class VendaUseCase {
         venda.setProdutos(produtos);
 
         venda.setValorTotal(valorTotal);
-
-        System.out.println(venda.getVendedor());
-
-        for (Produto p : venda.getProdutos()) System.out.println(p);
-
-        System.out.println(venda.getValorTotal());
 
         vendaRepository.persist(venda);
 

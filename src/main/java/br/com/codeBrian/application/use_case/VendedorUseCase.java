@@ -25,15 +25,18 @@ public class VendedorUseCase {
     }
 
     public Response inserirVendedor(Vendedor vendedor) {
+        if (vendedor.getMatricula() == null) {
+            return Response.ok("Necessario passar a matricula para cadastrar um vendedor").status(400).build();
+        }
         if (repository.findByMatricula(vendedor.getMatricula()).isPresent()) {
             return Response.ok("Ja existe um vendedor com essa matricula").status(422).build();
         }
         repository.persist(vendedor);
-        return Response.ok(vendedor).status(201).build();
+        return Response.ok(repository.findByMatricula(vendedor.getMatricula())).status(201).build();
     }
 
-    public Response obterVendedor(Long idVendedor) {
-        Optional<Vendedor> vendedor = repository.findByIdOptional(idVendedor);
+    public Response obterVendedor(Long matricula) {
+        Optional<Vendedor> vendedor = repository.findByMatricula(matricula);
 
         if (vendedor.isPresent()) {
             return Response.ok(vendedor.get()).status(200).build();
@@ -45,7 +48,7 @@ public class VendedorUseCase {
         if (vendedorOptional.isPresent()) {
             vendedorOptional.get().setNome(vendedor.getNome());
             vendedorOptional.get().setMatricula(vendedor.getMatricula());
-            return Response.ok(vendedorOptional.get()).status(200).build();
+            return Response.ok().status(200).build();
         } else return Response.ok().status(404).build();
     }
 }

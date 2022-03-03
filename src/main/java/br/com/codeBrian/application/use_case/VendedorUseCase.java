@@ -1,13 +1,18 @@
 package br.com.codeBrian.application.use_case;
 
+import br.com.codeBrian.domain.model.Venda;
 import br.com.codeBrian.domain.model.Vendedor;
+import br.com.codeBrian.infraestructure.repository.VendaRepository;
 import br.com.codeBrian.infraestructure.repository.VendedorRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 @ApplicationScoped
 public class VendedorUseCase {
@@ -15,19 +20,31 @@ public class VendedorUseCase {
     @Inject
     VendedorRepository repository;
 
+    @Inject
+    VendaRepository vendaRepository;
+
     public Response deletarVendedor(Long idVendedor) {
         try {
             Optional<Vendedor> vendedorOptional = repository.findByIdOptional(idVendedor);
             if (vendedorOptional.isPresent()) {
-                repository.delete(vendedorOptional.get());
-                return Response.ok(vendedorOptional.get()).status(200).build();
+                if(possivelDeletarVendedor(idVendedor)) return Response.ok(vendedorOptional.get()).status(200).build();
+                return Response.ok("Impossivel deletar um vendedor vinculado a uma venda!!").status(400).build();
             } else {
                 return Response.ok().status(404).build();
             }
         }
-        catch (PersistenceException e){
-            return Response.ok("Impossivel deletar um vendedor vinculado a uma venda!!").status(400).build();
+        catch (Exception e){
+            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
         }
+    }
+
+    private boolean possivelDeletarVendedor(Long idVendedor) {
+        List<Venda> vendaList = vendaRepository.listAll();
+
+        for (Venda v : vendaList){
+            if(v.getVendedor().getId() == idVendedor) return false;
+        }
+        return true;
     }
 
     public Response inserirVendedor(Vendedor vendedor) {

@@ -58,10 +58,7 @@ public class ProdutoResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletarProduto(@PathParam Long idProduto) {
-        try {
-            return useCase.deletarProduto(idProduto);
-        } catch (Exception e) {
-            return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
-        }
+
+        return useCase.deletarProduto(idProduto);
     }
 }

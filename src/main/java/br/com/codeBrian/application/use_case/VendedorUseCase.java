@@ -5,6 +5,7 @@ import br.com.codeBrian.infraestructure.repository.VendedorRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 import javax.ws.rs.core.Response;
 import java.util.Optional;
 
@@ -15,12 +16,17 @@ public class VendedorUseCase {
     VendedorRepository repository;
 
     public Response deletarVendedor(Long idVendedor) {
-        Optional<Vendedor> vendedorOptional = repository.findByIdOptional(idVendedor);
-        if (vendedorOptional.isPresent()) {
-            repository.delete(vendedorOptional.get());
-            return Response.ok(vendedorOptional.get()).status(200).build();
-        } else {
-            return Response.ok().status(404).build();
+        try {
+            Optional<Vendedor> vendedorOptional = repository.findByIdOptional(idVendedor);
+            if (vendedorOptional.isPresent()) {
+                repository.delete(vendedorOptional.get());
+                return Response.ok(vendedorOptional.get()).status(200).build();
+            } else {
+                return Response.ok().status(404).build();
+            }
+        }
+        catch (PersistenceException e){
+            return Response.ok("Impossivel deletar um vendedor vinculado a uma venda!!").status(400).build();
         }
     }
 

@@ -62,4 +62,8 @@ public class VendaUseCase {
 
         return Response.ok(venda).status(200).build();
     }
+
+    public Response obterVendas() {
+        return Response.ok(vendaRepository.listAll()).status(200).build();
+    }
 }

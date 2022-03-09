@@ -27,7 +27,7 @@ public class ProdutoUseCase {
                 if (possivelDeletarProduto(idProduto)) {
                     return Response.ok(produtoOptional.get()).status(200).build();
                 }
-                return Response.ok("Impossivel deletar um vendedor vinculado a uma venda!!").status(400).build();
+                return Response.ok("Impossivel deletar um produto vinculado a uma venda!!").status(400).build();
             }
             return Response.ok("Não a nenhum produto com esse Id").status(404).build();
         } catch (Exception e) {

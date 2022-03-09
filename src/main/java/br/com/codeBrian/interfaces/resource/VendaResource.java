@@ -5,6 +5,7 @@ import br.com.codeBrian.interfaces.form.VendaForm;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -23,5 +24,10 @@ public class VendaResource {
         } catch (Exception e) {
             return Response.ok("Algum erro inesperado aconteceu!!").status(400).build();
         }
+    }
+
+    @GET
+    public Response obterVendas(){
+        return useCase.obterVendas();
     }
 }

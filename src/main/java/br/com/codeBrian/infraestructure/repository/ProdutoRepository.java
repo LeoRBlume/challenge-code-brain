@@ -9,11 +9,8 @@ import java.util.Optional;
 @ApplicationScoped
 public class ProdutoRepository implements PanacheRepository<Produto> {
 
-
     public Optional<Produto> findByNome(String nomeProduto) {
         return find("nome", nomeProduto).firstResultOptional();
     }
 
-    public void listarProdutosMaisVendidos() {
-    }
 }

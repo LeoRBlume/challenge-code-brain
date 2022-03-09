@@ -12,4 +12,5 @@ public class VendedorRepository implements PanacheRepository<Vendedor> {
     public Optional<Vendedor> findByMatricula(Long matricula) {
         return find("matricula", matricula).firstResultOptional();
     }
+
 }

@@ -51,7 +51,8 @@ public class Vendedor {
     @Override
     public String toString() {
         return "Vendedor{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", matricula=" + matricula +
                 '}';
     }
